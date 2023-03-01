@@ -84,7 +84,7 @@ public class smartConveyorEnvController : MonoBehaviour
         int ranNum = UnityEngine.Random.Range(0, 2);
 
         // Reset the carton to the start of the belt
-        Carton.localPosition = new Vector3(9.25f, 1.75f, 0f);
+        Carton.localPosition = new Vector3(-0.25f, 1.75f, 0f);
         Carton.localRotation = Quaternion.Euler(0f, 0f, 0f);
         cartonDest.dest = ranNum;
 

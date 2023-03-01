@@ -184,11 +184,11 @@ public class smartConveyor : Agent
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            discreteActionsOut[0] = 1;
+            discreteActionsOut[0] = 2;
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
-            discreteActionsOut[0] = 2;
+            discreteActionsOut[0] = 1;
         }
 
         if (Input.GetKey(KeyCode.UpArrow))
