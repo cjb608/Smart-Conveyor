@@ -14,11 +14,12 @@ public class smartConveyor : Agent
 {
     public int unitNum = 0;
     public int unitType = 0;
-    public float unitLen;
     public int currentDest;
     public Vector3 direction;
     public float speed;
     public photoeye inductPE;
+    bool inductPEStatus;
+    bool exitPEStatus;
     public photoeye exitPE;
     public bool divertSol;
     public float maxSpeed = 10f;
@@ -26,7 +27,6 @@ public class smartConveyor : Agent
 
     public override void OnEpisodeBegin()
     {
-        unitLen = transform.localScale.x;
         currentDest = 0;
         direction.x = 0f;
         direction.z = 0f;
@@ -38,6 +38,17 @@ public class smartConveyor : Agent
     {
         for (int i = 0; i <= onBelt.Count - 1; i++)
         {
+            if (unitType == 0)
+            {
+                inductPEStatus = false;
+                exitPEStatus = false;
+            }
+            else if (unitType == 1)
+            {
+                inductPEStatus = inductPE.blocked;
+                exitPEStatus = exitPE.blocked;
+            }
+
             onBelt[i].GetComponent<Rigidbody>().velocity = speed * direction;
             currentDest = onBelt[i].GetComponent<cartonDestination>().dest;
         }
@@ -48,9 +59,6 @@ public class smartConveyor : Agent
     {
         // Unit Number
         sensor.AddObservation(unitNum);
-
-        // Unit Length
-        sensor.AddObservation(unitLen);
 
         // Unit Type
         sensor.AddObservation(unitType);
@@ -68,10 +76,10 @@ public class smartConveyor : Agent
         sensor.AddObservation(speed);
 
         // Induct Photoeye Status
-        sensor.AddObservation(inductPE.blocked);
+        sensor.AddObservation(inductPEStatus);
 
         // Exit Photoeye Status
-        sensor.AddObservation(exitPE.blocked);
+        sensor.AddObservation(exitPEStatus);
 
         // Divert Solenoid Status
         sensor.AddObservation(divertSol);

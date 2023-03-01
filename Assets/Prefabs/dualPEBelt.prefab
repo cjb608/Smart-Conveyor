@@ -231,9 +231,8 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  unitNum: 0
+  unitNum: 1
   unitType: 1
-  unitLen: 0
   currentDest: 0
   direction: {x: 0, y: 0, z: 0}
   speed: 0
@@ -255,7 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 10
+    VectorObservationSize: 9
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -410,7 +409,7 @@ GameObject:
   - component: {fileID: 9117072937336497705}
   - component: {fileID: 9117072937336497704}
   m_Layer: 0
-  m_Name: LeftSideChannel
+  m_Name: RightSideChannel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -507,7 +506,7 @@ GameObject:
   - component: {fileID: 9117072938025581423}
   - component: {fileID: 9117072938025581422}
   m_Layer: 0
-  m_Name: RightSideChannel
+  m_Name: LeftSideChannel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

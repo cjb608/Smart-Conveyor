@@ -86,7 +86,7 @@ public class smartConveyorEnvController : MonoBehaviour
         // Reset the carton to the start of the belt
         Carton.localPosition = new Vector3(-0.25f, 1.75f, 0f);
         Carton.localRotation = Quaternion.Euler(0f, 0f, 0f);
-        cartonDest.dest = ranNum;
+        cartonDest.dest = 3;
 
         // Reset Timer
         m_ResetTimer = 0;
