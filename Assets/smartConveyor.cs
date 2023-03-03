@@ -15,6 +15,8 @@ public class smartConveyor : Agent
     public int unitNum = 0;
     public int unitType = 0;
     public int currentDest;
+    int trnMotorDirection;
+    int xfrMotorDirection;
     public Vector3 direction;
     public float speed;
     public photoeye inductPE;
@@ -24,11 +26,13 @@ public class smartConveyor : Agent
     public bool divertSol;
     public float maxSpeed = 10f;
     public List<GameObject> onBelt;
+    public float beltRotation;
 
     public override void OnEpisodeBegin()
     {
         currentDest = 0;
         direction.x = 0f;
+        direction.y = 0f;
         direction.z = 0f;
         speed = 0f;
         divertSol = false;
@@ -38,12 +42,17 @@ public class smartConveyor : Agent
     {
         for (int i = 0; i <= onBelt.Count - 1; i++)
         {
-            if (unitType == 0)
+            if (unitType == 0 || unitType == 1)
             {
                 inductPEStatus = false;
                 exitPEStatus = false;
             }
             else if (unitType == 1)
+            {
+                inductPEStatus = false;
+                exitPEStatus = exitPE.blocked;
+            }
+            else if (unitType == 2)
             {
                 inductPEStatus = inductPE.blocked;
                 exitPEStatus = exitPE.blocked;
@@ -67,10 +76,10 @@ public class smartConveyor : Agent
         sensor.AddObservation(currentDest);
 
         // Conveyor X Direction
-        sensor.AddObservation(direction.x);
+        sensor.AddObservation(trnMotorDirection);
 
         // Conveyor Z Direction
-        sensor.AddObservation(direction.z);
+        sensor.AddObservation(xfrMotorDirection);
 
         // Conveyor Speed
         sensor.AddObservation(speed);
@@ -88,44 +97,243 @@ public class smartConveyor : Agent
 
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        // X Direction Action
-        int controlSignalXDirection = actionBuffers.DiscreteActions[0];
+        // Transport Motor Direction Action
+        int controlSignaltrnMotorDirection = actionBuffers.DiscreteActions[0];
 
-        if (direction.z == 0f && !divertSol)
+        if (xfrMotorDirection == 0 && !divertSol)
         {
-            if (controlSignalXDirection == 0)
+
+            if (controlSignaltrnMotorDirection == 0)
             {
-                direction.x = 0f;
+                trnMotorDirection = 0;
+                direction.x = 0;
+                direction.y = 0;
+                direction.z = 0;
             }
-            else if (controlSignalXDirection == 1)
+            else if (controlSignaltrnMotorDirection == 1)
             {
-                direction.x = -1f;
+                trnMotorDirection = -1;
+                if (beltRotation == 0)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
+                    direction.z = 0;
+                }
+                else if (beltRotation > 0 && beltRotation < 90)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
+                    direction.z = -(float)(Math.Tan(beltRotation * Math.PI / 180f));
+                }
+                else if (beltRotation == 90)
+                {
+                    direction.x = 0;
+                    direction.y = 0;
+                    direction.z = -1;
+                }
+                else if (beltRotation > 90 && beltRotation < 180)
+                {
+                    direction.x = 1;
+                    direction.y = 0;
+                    direction.z = (float)(Math.Tan(beltRotation * Math.PI / 180f));
+                }
+                else if (beltRotation == 180)
+                {
+                    direction.x = 1;
+                    direction.y = 0;
+                    direction.z = 0;
+                }
+                else if (beltRotation > 180 && beltRotation < 270)
+                {
+                    direction.x = 1;
+                    direction.y = 0;
+                    direction.z = (float)(Math.Tan(beltRotation * Math.PI / 180f));
+                }
+                else if (beltRotation == 270)
+                {
+                    direction.x = 0;
+                    direction.y = 0;
+                    direction.z = 1;
+                }
+                else if (beltRotation > 270 && beltRotation < 360)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
+                    direction.z = -(float)(Math.Tan(beltRotation * Math.PI / 180f));
+                }
             }
-            else if (controlSignalXDirection == 2)
+            else if (controlSignaltrnMotorDirection == 2)
             {
-                direction.x = 1f;
+                trnMotorDirection = 1;
+                if (beltRotation == 0)
+                {
+                    direction.x = 1;
+                    direction.y = 0;
+                    direction.z = 0;
+                }
+                else if (beltRotation > 0 && beltRotation < 90)
+                {
+                    direction.x = 1;
+                    direction.y = 0;
+                    direction.z = (float)(Math.Tan(beltRotation * Math.PI / 180f));
+                }
+                else if (beltRotation == 90)
+                {
+                    direction.x = 0;
+                    direction.y = 0;
+                    direction.z = 1;
+                }
+                else if (beltRotation > 90 && beltRotation < 180)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
+                    direction.z = -(float)(Math.Tan(beltRotation * Math.PI / 180f));
+                }
+                else if (beltRotation == 180)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
+                    direction.z = 0;
+                }
+                else if (beltRotation > 180 && beltRotation < 270)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
+                    direction.z = -(float)(Math.Tan(beltRotation * Math.PI / 180f));
+                }
+                else if (beltRotation == 270)
+                {
+                    direction.x = 0;
+                    direction.y = 0;
+                    direction.z = -1;
+                }
+                else if (beltRotation > 270 && beltRotation < 360)
+                {
+                    direction.x = 1;
+                    direction.y = 0;
+                    direction.z = (float)(Math.Tan(beltRotation * Math.PI / 180f));
+                }
             }
         }
 
-        // Y Direction Action
-        int controlSignalYDirection = actionBuffers.DiscreteActions[1];
+        // Transfer Motor Direction Action
+        int controlSignalxfrDirection = actionBuffers.DiscreteActions[1];
 
-        if (direction.x == 0f && divertSol)
+        if (trnMotorDirection == 0 && divertSol)
         {
-            if (controlSignalYDirection == 0)
+            if (controlSignalxfrDirection == 0)
             {
-                direction.z = 0f;
+                xfrMotorDirection = 0;
+                direction.x = 0;
+                direction.y = 0;
+                direction.z = 0;
             }
-            else if (controlSignalYDirection == 1)
+            else if (controlSignalxfrDirection == 1)
             {
-                direction.z = -1f;
+                xfrMotorDirection = -1;
+                if (beltRotation == 0)
+                {
+                    direction.x = 0;
+                    direction.y = 0;
+                    direction.z = -1;
+                }
+                else if (beltRotation > 0 && beltRotation < 90)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
+                    direction.z = -(float)(Math.Tan((beltRotation + 90) * Math.PI / 180f));
+                }
+                else if (beltRotation == 90)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
+                    direction.z = 0;
+                }
+                else if (beltRotation > 90 && beltRotation < 180)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
+                    direction.z = -(float)(Math.Tan((beltRotation + 90) * Math.PI / 180f));
+                }
+                else if (beltRotation == 180)
+                {
+                    direction.x = 0;
+                    direction.y = 0;
+                    direction.z = -1;
+                }
+                else if (beltRotation > 180 && beltRotation < 270)
+                {
+                    direction.x = 1;
+                    direction.y = 0;
+                    direction.z = (float)(Math.Tan((beltRotation + 90) * Math.PI / 180f));
+                }
+                else if (beltRotation == 270)
+                {
+                    direction.x = 1;
+                    direction.y = 0;
+                    direction.z = 0;
+                }
+                else if (beltRotation > 270 && beltRotation < 360)
+                {
+                    direction.x = 1;
+                    direction.y = 0;
+                    direction.z = (float)(Math.Tan((beltRotation + 90) * Math.PI / 180f));
+                }
             }
-            else if (controlSignalYDirection == 2)
+            else if (controlSignalxfrDirection == 2)
             {
-                direction.z = 1f;
+                xfrMotorDirection = 1;
+                if (beltRotation == 0)
+                {
+                    direction.x = 0;
+                    direction.y = 0;
+                    direction.z = 1;
+                }
+                else if (beltRotation > 0 && beltRotation < 90)
+                {
+                    direction.x = 1;
+                    direction.y = 0;
+                    direction.z = (float)(Math.Tan((beltRotation + 90) * Math.PI / 180f));
+                }
+                else if (beltRotation == 90)
+                {
+                    direction.x = 1;
+                    direction.y = 0;
+                    direction.z = 0;
+                }
+                else if (beltRotation > 90 && beltRotation < 180)
+                {
+                    direction.x = 1;
+                    direction.y = 0;
+                    direction.z = (float)(Math.Tan((beltRotation + 90) * Math.PI / 180f));
+                }
+                else if (beltRotation == 180)
+                {
+                    direction.x = 0;
+                    direction.y = 0;
+                    direction.z = 1;
+                }
+                else if (beltRotation > 180 && beltRotation < 270)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
+                    direction.z = -(float)(Math.Tan((beltRotation + 90) * Math.PI / 180f));
+                }
+                else if (beltRotation == 270)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
+                    direction.z = 0;
+                }
+                else if (beltRotation > 270 && beltRotation < 360)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
+                    direction.z = -(float)(Math.Tan((beltRotation + 90) * Math.PI / 180f));
+                }
             }
         }
-        
+
         // Speed Action
         int controlSignalSpeed = actionBuffers.DiscreteActions[2];
 

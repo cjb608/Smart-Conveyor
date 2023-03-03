@@ -77,6 +77,15 @@ public class smartConveyorEnvController : MonoBehaviour
                 ResetEnvironment();
             }
         }
+        else if (cartonDest.dest == 2)
+        {
+            if (AgentsList[3].Agent.exitPE.blocked)
+            {
+                m_AgentGroup.SetGroupReward(1.0f);
+                m_AgentGroup.EndGroupEpisode();
+                ResetEnvironment();
+            }
+        }
     }
 
     public void ResetEnvironment()
@@ -86,7 +95,7 @@ public class smartConveyorEnvController : MonoBehaviour
         // Reset the carton to the start of the belt
         Carton.localPosition = new Vector3(-0.25f, 1.75f, 0f);
         Carton.localRotation = Quaternion.Euler(0f, 0f, 0f);
-        cartonDest.dest = 3;
+        cartonDest.dest = ranNum;
 
         // Reset Timer
         m_ResetTimer = 0;
