@@ -177,6 +177,8 @@ MonoBehaviour:
   AgentsList:
   - Agent: {fileID: 2075253273}
   - Agent: {fileID: 720268316}
+  - Agent: {fileID: 1998784748}
+  - Agent: {fileID: 1756341249}
   Carton: {fileID: 1907963674}
   numCartonsOnBelt: 0
   cartonDest: {fileID: 1907963675}
@@ -190,7 +192,7 @@ PrefabInstance:
     - target: {fileID: 9117072936907796588, guid: f6d70dc27407bcc49b3fa7399b221b98, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5022602860645237092, guid: b5e7f12947858dd41abfab0293417185, type: 3}
     - target: {fileID: 9117072936907796588, guid: f6d70dc27407bcc49b3fa7399b221b98, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
       value: 9
@@ -727,7 +729,7 @@ PrefabInstance:
     - target: {fileID: 9117072936907796588, guid: f6d70dc27407bcc49b3fa7399b221b98, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5022602860645237092, guid: b5e7f12947858dd41abfab0293417185, type: 3}
     - target: {fileID: 9117072936907796589, guid: f6d70dc27407bcc49b3fa7399b221b98, type: 3}
       propertyPath: DecisionPeriod
       value: 5
@@ -795,6 +797,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8368320514974170153, guid: d4254ee8199e1e541bb54087fda851fa, type: 3}
   m_PrefabInstance: {fileID: 8368320514292815913}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1756341249 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8368320514974170154, guid: d4254ee8199e1e541bb54087fda851fa, type: 3}
+  m_PrefabInstance: {fileID: 8368320514292815913}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3657bc84649f2d84c8f4cad1f693014e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1907963669
 GameObject:
   m_ObjectHideFlags: 0
@@ -928,6 +941,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7180078411845227933, guid: fc56c22ef23b18d4d805d699cdfc4262, type: 3}
   m_PrefabInstance: {fileID: 7180078413135175030}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1998784748 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7180078411845227931, guid: fc56c22ef23b18d4d805d699cdfc4262, type: 3}
+  m_PrefabInstance: {fileID: 7180078413135175030}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3657bc84649f2d84c8f4cad1f693014e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2075253270 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9117072936907796591, guid: f6d70dc27407bcc49b3fa7399b221b98, type: 3}
@@ -1032,7 +1056,7 @@ PrefabInstance:
     - target: {fileID: 7180078411845227930, guid: fc56c22ef23b18d4d805d699cdfc4262, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5022602860645237092, guid: b5e7f12947858dd41abfab0293417185, type: 3}
     - target: {fileID: 7180078411845227931, guid: fc56c22ef23b18d4d805d699cdfc4262, type: 3}
       propertyPath: exitPE
       value: 
@@ -1154,5 +1178,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8368320514974170155, guid: d4254ee8199e1e541bb54087fda851fa, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: b5e7f12947858dd41abfab0293417185, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4254ee8199e1e541bb54087fda851fa, type: 3}

@@ -41,6 +41,7 @@ public class smartConveyorEnvController : MonoBehaviour
     void FixedUpdate()
     {
         m_ResetTimer += 1;
+        m_AgentGroup.AddGroupReward(-1.0f / MaxEnvironmentSteps);
         if (m_ResetTimer > MaxEnvironmentSteps && MaxEnvironmentSteps > 0)
         {
             m_AgentGroup.GroupEpisodeInterrupted();
@@ -55,6 +56,7 @@ public class smartConveyorEnvController : MonoBehaviour
 
         if (numCartonsOnBelt == 0)
         {
+            m_AgentGroup.SetGroupReward(-100.0f);
             m_AgentGroup.EndGroupEpisode();
             ResetEnvironment();
         }
@@ -90,7 +92,7 @@ public class smartConveyorEnvController : MonoBehaviour
 
     public void ResetEnvironment()
     {
-        int ranNum = UnityEngine.Random.Range(0, 2);
+        int ranNum = UnityEngine.Random.Range(0, 3);
 
         // Reset the carton to the start of the belt
         Carton.localPosition = new Vector3(-0.25f, 1.75f, 0f);

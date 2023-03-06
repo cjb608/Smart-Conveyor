@@ -20,9 +20,9 @@ public class smartConveyor : Agent
     public Vector3 direction;
     public float speed;
     public photoeye inductPE;
+    public photoeye exitPE;
     bool inductPEStatus;
     bool exitPEStatus;
-    public photoeye exitPE;
     public bool divertSol;
     public float maxSpeed = 10f;
     public List<GameObject> onBelt;
@@ -38,26 +38,29 @@ public class smartConveyor : Agent
         divertSol = false;
     }
 
+    void FixedUpdate()
+    {
+        if (unitType == 0)
+        {
+            inductPEStatus = false;
+            exitPEStatus = false;
+        }
+        else if (unitType == 1)
+        {
+            inductPEStatus = false;
+            exitPEStatus = exitPE.blocked;
+        }
+        else if (unitType == 2)
+        {
+            inductPEStatus = inductPE.blocked;
+            exitPEStatus = exitPE.blocked;
+        }
+    }
+
     void Update()
     {
         for (int i = 0; i <= onBelt.Count - 1; i++)
         {
-            if (unitType == 0 || unitType == 1)
-            {
-                inductPEStatus = false;
-                exitPEStatus = false;
-            }
-            else if (unitType == 1)
-            {
-                inductPEStatus = false;
-                exitPEStatus = exitPE.blocked;
-            }
-            else if (unitType == 2)
-            {
-                inductPEStatus = inductPE.blocked;
-                exitPEStatus = exitPE.blocked;
-            }
-
             onBelt[i].GetComponent<Rigidbody>().velocity = speed * direction;
             currentDest = onBelt[i].GetComponent<cartonDestination>().dest;
         }
@@ -375,6 +378,15 @@ public class smartConveyor : Agent
         else if (controlSignalDivert == 1 && direction.x == 0f && direction.z == 0f)
         {
             divertSol = true;
+        }
+
+        // Local Rewards
+        if (unitType == 0 || unitType == 1 || unitType == 2)
+        {
+            if (controlSignalxfrDirection == 1 || controlSignalxfrDirection == 2 || controlSignalDivert == 1)
+            {
+                AddReward(-1.0f);
+            }
         }
 
     }
